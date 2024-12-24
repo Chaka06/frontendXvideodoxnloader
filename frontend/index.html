@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:title" content="TTwitter Video Downloader">
+    <meta property="og:description" content="Téléchargez facilement vos vidéos Twitter en collant leur lien sur notre plateforme sécurisé">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1690233662564-f599cc764cca?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
+    <link rel="icon" href="https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/Reuters_Direct_Media/BrazilOnlineReportTechnologyNews/tagreuters.com2023binary_LYNXMPEJ9Q0XP-FILEDIMAGE.jpg">
+    <title>Video Downloader</title>
+    <style>
+        :root {
+            --primary-color: #1DA1F2;
+            --dark-bg: #15202B;
+            --darker-bg: #192734;
+            --text-color: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--text-color);
+        }
+
+        .disclaimer {
+            max-width: 600px;
+            text-align: center;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+            opacity: 0.8;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: var(--darker-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--dark-bg);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 0.5rem;
+            color: var(--text-color);
+            font-size: 1rem;
+            padding-left: 2.5rem;
+        }
+
+        .input-group svg {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.5;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--primary-color);
+            border: none;
+            border-radius: 0.5rem;
+            color: var(--text-color);
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #1991da;
+        }
+
+        .btn:disabled {
+            background-color: #1991da;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .info {
+            text-align: center;
+            margin-top: 2rem;
+            opacity: 0.7;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        #result {
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            background-color: var(--dark-bg);
+            display: none;
+        }
+
+        #result.show {
+            display: block;
+        }
+
+        .error {
+            color: #ff4444;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .error.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+            </svg>
+            Videos
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        Cette application Web n'est en aucun cas affiliée, partenaire, détenue ou exploitée par X Corp (anciennement Twitter)
+    </div>
+
+    <div class="container">
+        <h1 class="title">Téléchargeur de vidéos X </h1>
+        
+        <div class="input-group">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+            </svg>
+            <input type="text" id="tweetUrl" placeholder="URL du tweet" autocomplete="off">
+            <div class="error" id="urlError">Veuillez entrer une URL de tweet valide</div>
+        </div>
+
+        <button class="btn" id="downloadBtn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="7 10 12 15 17 10"/>
+                <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Charger des vidéos
+        </button>
+
+        <div id="result"></div>
+
+        <div class="info">
+            Collez un lien tweet ci-dessus pour charger ses vidéos et afficher les options de téléchargement ici
+        </div>
+    </div>
+
+    <script>
+        const tweetUrlInput = document.getElementById('tweetUrl');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const urlError = document.getElementById('urlError');
+        const result = document.getElementById('result');
+
+        // Validation de l'URL
+        function isValidTweetUrl(url) {
+            try {
+                const tweetUrl = new URL(url);
+                return tweetUrl.hostname === 'twitter.com' || 
+                       tweetUrl.hostname === 'x.com' || 
+                       tweetUrl.hostname === 'mobile.twitter.com';
+            } catch {
+                return false;
+            }
+        }
+
+        // Gestion de la saisie de l'URL
+        tweetUrlInput.addEventListener('input', () => {
+            const url = tweetUrlInput.value.trim();
+            if (url === '') {
+                urlError.classList.remove('show');
+                downloadBtn.disabled = true;
+            } else if (!isValidTweetUrl(url)) {
+                urlError.classList.add('show');
+                downloadBtn.disabled = true;
+            } else {
+                urlError.classList.remove('show');
+                downloadBtn.disabled = false;
+            }
+        });
+
+        // Gestion du clic sur le bouton de téléchargement
+        downloadBtn.addEventListener('click', async () => {
+            const url = tweetUrlInput.value.trim();
+            if (!isValidTweetUrl(url)) {
+                return;
+            }
+
+            downloadBtn.disabled = true;
+            result.innerHTML = 'Chargement...';
+            result.classList.add('show');
+
+            try {
+                const response = await fetch('http://localhost:3000/api/video-info', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ tweetUrl: url })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération des informations de la vidéo');
+                }
+
+                const data = await response.json();
+                
+                if (!data.videos || data.videos.length === 0) {
+                    throw new Error('Aucune vidéo trouvée dans ce tweet');
+                }
+
+                const video = data.videos[0];
+                const versions = video.versions.sort((a, b) => (b.bitrate || 0) - (a.bitrate || 0));
+                const hdVersion = versions[0];
+                const sdVersion = versions[versions.length - 1];
+
+                result.innerHTML = `
+                    <div style="padding: 1rem; background: rgba(255,255,255,0.1); border-radius: 0.5rem; margin-top: 1rem;">
+                        <p style="margin-bottom: 0.5rem;">Vidéo trouvée :</p>
+                        ${video.thumbnail ? `<img src="${video.thumbnail}" style="width: 100%; border-radius: 0.5rem; margin: 0.5rem 0;" />` : ''}
+                        <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                            ${hdVersion ? `
+                                <button class="btn" onclick="downloadVideo('${hdVersion.url}', 'HD')">
+                                    Télécharger HD (${Math.round(hdVersion.bitrate / 1000)} kbps)
+                                </button>
+                            ` : ''}
+                            ${sdVersion && sdVersion !== hdVersion ? `
+                                <button class="btn" onclick="downloadVideo('${sdVersion.url}', 'SD')">
+                                    Télécharger SD (${Math.round(sdVersion.bitrate / 1000)} kbps)
+                                </button>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                result.innerHTML = 'Une erreur est survenue lors du chargement de la vidéo.';
+            } finally {
+                downloadBtn.disabled = false;
+            }
+        });
+        // Fonction de téléchargement
+        async function downloadVideo(videoUrl, quality) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/download?url=${encodeURIComponent(videoUrl)}`);
+                
+                if (!response.ok) {
+                    throw new Error('Erreur lors du téléchargement');
+                }
+
+                // Création d'un blob à partir de la réponse
+                const blob = await response.blob();
+                
+                // Création d'un lien de téléchargement
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `twitter-video-${quality}.mp4`;
+                
+                // Déclenchement du téléchargement
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            } catch (error) {
+                console.error('Erreur de téléchargement:', error);
+                alert('Erreur lors du téléchargement de la vidéo');
+            }
+        }
+    </script>
+</body>
+</html>
