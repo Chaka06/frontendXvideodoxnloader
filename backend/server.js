@@ -22,7 +22,9 @@ const config = {
 };
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/index.html'));
+    const path = require('path');
+res.sendFile(path.join(__dirname, '..', 'index.html'));
+
 });
 
 app.post('/api/video-info', async (req, res) => {
